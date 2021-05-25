@@ -1,6 +1,7 @@
 # Use the httpd-parent image as base
 FROM quay.io/redhattraining/httpd-parent
-# Change the port to 8080
 EXPOSE 8080
-# Change web server port to 8080
-RUN sed -i "s/Listen 80/Listen 8080/g" /etc/httpd/conf/httpd.conf
+LABEL io.openshift.expose-services="http:8080"
+RUN sed -i 's/Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.config
+RUN chgrp -R 0 /var/log/httpd /var/run/httpd &&  chmod -R g=u /var/log/httpd /var/run/httpd
+USER 1001
